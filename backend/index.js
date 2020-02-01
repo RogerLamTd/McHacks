@@ -1,8 +1,20 @@
 const http = require('http')
+const express = require('express')
+const app = express()
 
-const app =http.createServer((req, res) => {
-    res.writeHead(200, {'Content-Type': 'text/plain' })
-    res.end('Hello World')
+let listings = [
+    {
+        id: 1,
+        content: "Henlo",
+    }
+]
+
+app.get('/', (req, res) => {
+    res.send('<h1>Hello World!</h1>')
+})
+
+app.get('/listings', (req, res) => {
+    res.json(listings)
 })
 
 const PORT = 3001
