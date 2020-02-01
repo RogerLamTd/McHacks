@@ -1,26 +1,48 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {SubletMap} from "./SubletMap.js"
+// ...
+/*
+    handleNew(newMarker){
+        const newListing = JSON.parse(newMarker);
+        const listMarker = <div><Marker
+                            name={newListing.name}
+                            position={{lat: newListing.lat, lng: newListing.lng}} />
+                            <Marker /></div>
+        
+        const currListing = this.state.listings;
+        currListing.push(listMarker);
+        this.setState({listings : currListing});
+    }*/
 
-function App() {
-  return (  
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://github.com/RogerLamTd/McHacks"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          AAAAAAAAAAA help me change the title
-        </a>
-      </header>
-    </div>
-  );
+
+const objectListings = [];
+
+let testMarker = {
+  lat: 45.5,
+  lng: -73.57,
+  name: "peepee!"
 }
 
+function addMarker(newMarker){
+  objectListings.push( JSON.parse(newMarker));
+}
+export class App extends React.Component{
+  render(){
+    return (  
+      <div className="App">
+        <SubletMap listings = {objectListings}/>
+      </div>
+    );
+  
+  }
+  
+  
+}
+
+
+
+
 export default App;
+
