@@ -1,5 +1,5 @@
 import React from 'react';
-import GoogleMapReact, {Marker} from 'google-map-react';
+import GoogleMapReact from 'google-map-react';
 require('dotenv').config();
 
 export class SubletMap extends React.Component {
@@ -21,16 +21,7 @@ export class SubletMap extends React.Component {
             bootstrapURLKeys={{ key: process.env.REACT_APP_MAP_KEY }}
             defaultCenter={this.props.center}
             defaultZoom={this.props.zoom}
-            ><div>
-                {this.props.listings.map((currMarker) => {
-                    return <div><Marker
-                            name={currMarker.name}
-                            position={{lat: currMarker.lat, lng: currMarker.lng}} />
-                            <Marker /></div>
-
-
-                })}
-            </div>
+            >
             </GoogleMapReact>
         </div>
         );

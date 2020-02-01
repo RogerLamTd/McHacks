@@ -17,22 +17,12 @@ import {SubletMap} from "./SubletMap.js"
     }*/
 
 
-const objectListings = [];
 
-let testMarker = {
-  lat: 45.5,
-  lng: -73.57,
-  name: "peepee!"
-}
-
-function addMarker(newMarker){
-  objectListings.push( JSON.parse(newMarker));
-}
 export class App extends React.Component{
   render(){
     return (  
       <div className="App">
-        <SubletMap listings = {objectListings}/>
+        <SubletMap/>
       </div>
     );
   
