@@ -1,12 +1,47 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import './index.css';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const IndexPage = () => (
+    <>
+    <h1>Hi!</h1>
+    <p> welcome to site</p>
+    <p> time to make stuff</p>
+    </>
+)
+export default function Test() {
+    return(
+        <Router>
+            <>
+            <nav>
+                <ul>
+                    <li>
+                        <Link to="/">Home</Link>
+                    </li>
+                    <li>
+                        <Link to="/sublet">Sublet Map</Link>
+                    </li>
+                </ul>
+            </nav>
+            <Switch>
+                <Route path="/sublet">
+                 <App />
+                </Route>
+                <Route path="/">
+                    <Home />
+                </Route>
+            </Switch>
+            </>
+        </Router>
+    );
+}
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+function Home(){
+    return <h2>Home</h2>;
+}
+
+
+
+ReactDOM.render(<Test />, document.getElementById('root'));
