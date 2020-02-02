@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import './index.css';
 import App from './App';
+import {SubletForm} from "./subletForm";
 
 const IndexPage = () => (
     <>
@@ -23,11 +24,17 @@ export default function Test() {
                     <li>
                         <Link to="/sublet">Sublet Map</Link>
                     </li>
+                    <li>
+                        <Link to="/subletForm">Sublet Form</Link>
+                    </li>
                 </ul>
             </nav>
             <Switch>
                 <Route path="/sublet">
                  <App />
+                </Route>
+                <Route path="/subletForm">
+                    <SubletForm />
                 </Route>
                 <Route path="/">
                     <Home />
@@ -39,7 +46,7 @@ export default function Test() {
 }
 
 function Home(){
-    return <h2>Home</h2>;
+    return <h2>HomIE peeepee</h2>;
 }
 
 

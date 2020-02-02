@@ -27,6 +27,31 @@ export class App extends React.Component{
     this.handleClick = this.handleClick.bind(this);
     this.id=0;
     this.listings = [];
+    
+    
+  }
+
+  initListings(){
+    const getData = async () => {
+      try{
+        const response = await fetch("/api/listings");
+        if(response.ok){
+          const jsonResponse = await response.json();
+          return jsonResponse;
+        }
+        throw new Error("Request failed!");
+      }
+      catch(error){
+        console.log(error);
+      }
+    }
+
+    const parsedData = JSON.parse(getData);
+
+    parsedData.forEach(currentListing => {
+        console.log(currentListing);
+        this.addMarker(currentListing);
+      })
   }
 
   addMarker(jsonListing){
@@ -59,6 +84,7 @@ export class App extends React.Component{
 
   render(){
     return (  
+      
       <div className="App">
         <form>
           <label>
