@@ -16,8 +16,36 @@ const testObject = {
 }
 
 const testJson = JSON.stringify(testObject);
+let id = 0;
+const listings = [];
 
-
+function addMarker(objectListing){
+    //const objectListing = JSON.parse(jsonListing);
+    console.log(objectListing);
+    listings.push(
+      <Marker position = {{ lat: parseFloat(objectListing.posn.lat), lng: parseFloat(objectListing.posn.lng)}} key = {id} />
+    )
+    
+}
+const getData = async () => {
+  try{
+    const response = await fetch("/api/listings");
+    if(response.ok){
+      const jsonResponse = await response.json();
+      console.log(jsonResponse);
+      //const parsedData = JSON.parse(jsonResponse);
+      jsonResponse.forEach(currentListing => {
+        console.log(currentListing);
+        addMarker(currentListing);
+        id++;
+      })
+    }
+    throw new Error("Request failed!");
+  }
+  catch(error){
+    console.log(error);
+  }
+}
 export class App extends React.Component{
   constructor(props){
     super(props);
@@ -25,41 +53,7 @@ export class App extends React.Component{
     lng : 0};
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.id=0;
-    this.listings = [];
-    
-    
-  }
-
-  initListings(){
-    const getData = async () => {
-      try{
-        const response = await fetch("/api/listings");
-        if(response.ok){
-          const jsonResponse = await response.json();
-          return jsonResponse;
-        }
-        throw new Error("Request failed!");
-      }
-      catch(error){
-        console.log(error);
-      }
-    }
-
-    //const parsedData = JSON.parse(getData);
-
-    getData.forEach(currentListing => {
-        console.log(currentListing);
-        this.addMarker(currentListing);
-      })
-  }
-
-  addMarker(jsonListing){
-    const objectListing = JSON.parse(jsonListing);
-    this.listings.push(
-      <Marker position = {{ lat: parseFloat(objectListing.lat), lng: parseFloat(objectListing.lng)}} key = {this.id} />
-    )
-    this.id++;
+    getData();
   }
 
   handleInputChange(event) {
@@ -78,7 +72,7 @@ export class App extends React.Component{
       lng : this.state.lng
     }
 
-    this.addMarker(JSON.stringify(newObject));
+    addMarker(JSON.stringify(newObject));
     this.forceUpdate();
   }
 
@@ -113,7 +107,7 @@ export class App extends React.Component{
           loadingElement={<div style={{ height: `100%` }} />}
           containerElement={<div style={{ height: `700px` }} />}
           mapElement={<div style={{ height: `100%` }} />}
-          listings = {this.listings}
+          listings = {listings}
         />
       </div>
     );
