@@ -5,6 +5,10 @@ const sendData = async (data) => {
     try {
       const response = await fetch('/api/listings', {
         method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
         body: data
       })
       if(response.ok){

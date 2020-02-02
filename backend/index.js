@@ -43,31 +43,26 @@ app.delete('/api/listings/:id', (req, res, next) => {
 
 app.post('/api/listings', (request, response) => {
   const body = request.body
-
-  if (body.content === undefined) {
-    return response.status(400).json({ error: 'content missing' })
-  }
+  console.log(body);
+  
   console.log(body)
 
-  const key = process.env.REACT_APP_MAP_KEY
+  const key = process.env.REACT_APP_GEOCODE_KEY
   const address = body.window.address.split("+") + ",+Montreal,+QC"
-  console.log(adress)
+  console.log(address)
   let coords
-  axios.get("https://maps.googleapis.com/maps/api/geocode/json?address=${address}}&key=${key}")
+  axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}}&key=${key}`)
     .then(res => {
-      console.log(res)
-      coords = JSON.stringify(res.data)
+      coords = res.data.results[0]
+      console.log(coords)
     })
     .catch(error => {
       console.log(error);
   })
-  if (coords === undefined) {
-    return response.status(400).json({ error: 'address missing'})
-  }
 
   const listing = new Listing({
-    posn: { lat:toString(coords.results[0].geometry.location.lat),
-      lng: toString(coords.results[0].geometry.location.lng),
+    posn: { lat:toString(coords["geometry"].location.lat),
+      lng: toString(coords["geometry"].location.lng),
     },
     window: body.window,
     posting: body.posting,
