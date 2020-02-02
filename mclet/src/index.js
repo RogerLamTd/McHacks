@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import './index.css';
 import App from './App';
 
+
 const IndexPage = () => (
     <>
     <h1>Hi!</h1>
@@ -11,6 +12,9 @@ const IndexPage = () => (
     <p> time to make stuff</p>
     </>
 )
+
+
+
 export default function Test() {
     return(
         <Router>
@@ -18,8 +22,8 @@ export default function Test() {
             <nav>
                 <ul>
                     <li>
-                        <Link to="/">Home</Link>
-                    </li>
+                        <Link to="/">Home </Link>
+                        </li>
                     <li>
                         <Link to="/sublet">Sublet Map</Link>
                     </li>
@@ -27,10 +31,10 @@ export default function Test() {
             </nav>
             <Switch>
                 <Route path="/sublet">
-                 <App />
+                    <App />
                 </Route>
                 <Route path="/">
-                    <Home />
+                    <IndexPage />
                 </Route>
             </Switch>
             </>
