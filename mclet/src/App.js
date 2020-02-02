@@ -6,24 +6,16 @@ import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-map
 require('dotenv').config();
 
 // ...
-let id=0;
-const addMarker = (jsonListing) => {
-  const objectListing = JSON.parse(jsonListing);
-  newListings.push(
-    <Marker position = {{ lat: parseFloat(objectListing.lat), lng: parseFloat(objectListing.lng)}} key = {id} />
-  )
-  id++;
 
-};
 
-const newListings = [];
+
+
 const testObject = {
   lat: "45.5",
   lng:"-73.57"
 }
 
 const testJson = JSON.stringify(testObject);
-addMarker(testJson);
 
 
 export class App extends React.Component{
@@ -33,6 +25,16 @@ export class App extends React.Component{
     lng : 0};
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.id=0;
+    this.listings = [];
+  }
+
+  addMarker(jsonListing){
+    const objectListing = JSON.parse(jsonListing);
+    this.listings.push(
+      <Marker position = {{ lat: parseFloat(objectListing.lat), lng: parseFloat(objectListing.lng)}} key = {this.id} />
+    )
+    this.id++;
   }
 
   handleInputChange(event) {
@@ -51,7 +53,7 @@ export class App extends React.Component{
       lng : this.state.lng
     }
 
-    addMarker(JSON.stringify(newObject));
+    this.addMarker(JSON.stringify(newObject));
     this.forceUpdate();
   }
 
@@ -85,7 +87,7 @@ export class App extends React.Component{
           loadingElement={<div style={{ height: `100%` }} />}
           containerElement={<div style={{ height: `700px` }} />}
           mapElement={<div style={{ height: `100%` }} />}
-          listings = {newListings}
+          listings = {this.listings}
         />
       </div>
     );
