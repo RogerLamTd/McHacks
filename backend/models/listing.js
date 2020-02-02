@@ -1,5 +1,3 @@
-//importing this module: const List = require('./models/list')
-
 const mongoose = require('mongoose')
 
 const url = process.env.MONGODB_URI
@@ -15,34 +13,29 @@ mongoose.connect(url, { useNewUrlParser: true })
   })
 
 const listingSchema = new mongoose.Schema({
-  	id: Number,
-    date: Date,
     posn: {
-        lat: Number,
-        lng: Number,
+        lat: String,
+        lng: String,
     },
     window: {
         address: String,
-        link: String,
-        nRooms: Number,
+        nRooms: String,
     },
     posting: {
         owner: String,
-        rent: Number,
+        rent: String,
         email: String,
-        Number: String,
-        Description: String,
+        phone: String,
+        description: String,
     }
 })
 
 listingSchema.set('toJSON', {
-  transform: (document, retObj) => {
-    retObj.id = retObj._id.toString()
-    delete retObj._id
-    delete retObj.__v
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
   }
 })
 
-module.exports = mongoose.model('List', listingSchema)
-
-
+module.exports = mongoose.model('Listing', listingSchema)
