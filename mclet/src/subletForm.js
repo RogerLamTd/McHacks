@@ -66,7 +66,7 @@ export class SubletForm extends React.Component{
     render(){
         return(
             <div className = "form">
-                <h1>Sublet Form</h1>;
+                <h1>Sublet Form</h1>
                 <form>
                     <label>
                     Enter address:

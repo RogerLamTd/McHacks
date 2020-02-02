@@ -6,18 +6,18 @@ import './index.css';
 import App from './App';
 import {SubletForm} from "./subletForm";
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+ 
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 
 
-const Example = (props) => {
+const AppBar = (props) => {
     const [collapsed, setCollapsed] = useState(true);
   
     const toggleNavbar = () => setCollapsed(!collapsed);
   
     return (
       <div>
-        <Navbar color="faded" light>
+        <Navbar color="dark" dark expand="md">
           <NavbarBrand className="mr-auto"><Link to="/">Home </Link></NavbarBrand>
           <NavbarToggler onClick={toggleNavbar} className="mr-2" />
           <Collapse isOpen={!collapsed} navbar>
@@ -50,7 +50,7 @@ export default function Test() {
     return(
         <Router>
             <>
-            <Example />
+            <AppBar />
             
             <Switch>
                 <Route path="/sublet">

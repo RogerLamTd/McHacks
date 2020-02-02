@@ -8,6 +8,7 @@ require('dotenv').config();
 // ...
 let id = 0;
 const listings = [];
+let reRender;
 
 function addMarker(objectListing){
     //const objectListing = JSON.parse(jsonListing);
@@ -26,15 +27,18 @@ const getData = async () => {
       //const parsedData = JSON.parse(jsonResponse);
         if(Array.isArray(jsonResponse)){
           jsonResponse.forEach(currentListing => {
-          console.log(currentListing);
+          console.log("IN ARRAY");
           addMarker(currentListing);
           id++;
           })
         }
         else{
+          console.log("IN NO");
+
           addMarker(jsonResponse);
           id++;
         }
+        reRender();
         return;
       
     }
@@ -48,7 +52,9 @@ export class App extends React.Component{
   constructor(props){
     super(props);
     getData();
-    
+    this.forceUpdate = this.forceUpdate.bind(this);
+    reRender = this.forceUpdate;
+
   }
 
   render(){
