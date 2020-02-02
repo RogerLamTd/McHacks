@@ -7,8 +7,6 @@ import App from './App';
 import {SubletForm} from "./subletForm";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
-import Typography from '@material-ui/core/Typography'
-
 
 const AppBar = (props) => {
     const [collapsed, setCollapsed] = useState(true);
@@ -17,16 +15,16 @@ const AppBar = (props) => {
   
     return (
       <div>
-        <Navbar color="dark" dark expand="md">
-          <NavbarBrand className="mr-auto"><Link to="/">Home </Link></NavbarBrand>
+        <Navbar style={{backgroundColor:'#A52A2A'}} expand="md">
+          <NavbarBrand className="mr-auto"><Link to="/" style={{color: 'white'}}>Home </Link></NavbarBrand>
           <NavbarToggler onClick={toggleNavbar} className="mr-2" />
           <Collapse isOpen={!collapsed} navbar>
             <Nav navbar>
               <NavItem>
-                <NavLink><Link to="/sublet">Sublet Map</Link></NavLink>
+                <NavLink><Link to="/sublet" style={{color: 'white'}}>Sublet Map</Link></NavLink>
               </NavItem>
               <NavItem>
-                <NavLink><Link to="/subletForm">Sublet Form</Link></NavLink>
+                <NavLink><Link to="/subletForm" style={{color: 'white'}}>Sublet Form</Link></NavLink>
               </NavItem>
             </Nav>
           </Collapse>
@@ -39,6 +37,8 @@ const AppBar = (props) => {
 const IndexPage = () => (
     <>
     <h1>Welcome to McLet</h1>
+    <p title="subtitle">Your local solution to student housing issues!</p>
+    <img src="https://www.mcgill.ca/sustainability/files/sustainability/mcgill-campus.png" alt="mcgill"></img>
     </>
 )
 

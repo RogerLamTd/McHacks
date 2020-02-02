@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import {SubletMap} from "./SubletMap.js"
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+import { Marker } from "react-google-maps"
 
 require('dotenv').config();
 
