@@ -13,7 +13,7 @@ function addMarker(objectListing){
     //const objectListing = JSON.parse(jsonListing);
     console.log(objectListing);
     listings.push(
-      <Marker position = {{ lat: parseFloat(objectListing.posn.lat), lng: parseFloat(objectListing.posn.lng)}} key = {id} />
+      <Marker position = {{ lat: parseFloat(objectListing.posn.lat), lng: parseFloat(objectListing.posn.lng) }} key = {id} />
     )
     
 }
@@ -24,11 +24,19 @@ const getData = async () => {
       const jsonResponse = await response.json();
       console.log(jsonResponse);
       //const parsedData = JSON.parse(jsonResponse);
-      jsonResponse.forEach(currentListing => {
-        console.log(currentListing);
-        addMarker(currentListing);
-        id++;
-      })
+        if(Array.isArray(jsonResponse)){
+          jsonResponse.forEach(currentListing => {
+          console.log(currentListing);
+          addMarker(currentListing);
+          id++;
+          })
+        }
+        else{
+          addMarker(jsonResponse);
+          id++;
+        }
+        return;
+      
     }
     throw new Error("Request failed!");
   }
@@ -40,6 +48,7 @@ export class App extends React.Component{
   constructor(props){
     super(props);
     getData();
+    
   }
 
   render(){

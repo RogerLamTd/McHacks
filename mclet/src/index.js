@@ -1,10 +1,40 @@
 import React from 'react';
+import {useState} from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import './index.css';
 import App from './App';
 import {SubletForm} from "./subletForm";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+
+
+const Example = (props) => {
+    const [collapsed, setCollapsed] = useState(true);
+  
+    const toggleNavbar = () => setCollapsed(!collapsed);
+  
+    return (
+      <div>
+        <Navbar color="faded" light>
+          <NavbarBrand className="mr-auto"><Link to="/">Home </Link></NavbarBrand>
+          <NavbarToggler onClick={toggleNavbar} className="mr-2" />
+          <Collapse isOpen={!collapsed} navbar>
+            <Nav navbar>
+              <NavItem>
+                <NavLink><Link to="/sublet">Sublet Map</Link></NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink><Link to="/subletForm">Sublet Form</Link></NavLink>
+              </NavItem>
+            </Nav>
+          </Collapse>
+        </Navbar>
+      </div>
+    );
+  }
+  
 
 const IndexPage = () => (
     <>
@@ -20,19 +50,8 @@ export default function Test() {
     return(
         <Router>
             <>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="/">Home </Link>
-                        </li>
-                    <li>
-                        <Link to="/sublet">Sublet Map</Link>
-                    </li>
-                    <li>
-                        <Link to="/subletForm">Sublet Form</Link>
-                    </li>
-                </ul>
-            </nav>
+            <Example />
+            
             <Switch>
                 <Route path="/sublet">
                     <App />

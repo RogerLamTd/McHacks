@@ -1,8 +1,14 @@
 import React from 'react';
+
 const sendData = async (data) => {
+    console.log(data);
     try {
       const response = await fetch('/api/listings', {
         method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
         body: data
       })
       if(response.ok){
@@ -53,6 +59,7 @@ export class SubletForm extends React.Component{
                 Description: this.state.desc
             }
         }
+        console.log(newObject);
         const jsonListing = JSON.stringify(newObject);
         sendData(jsonListing); 
     }
