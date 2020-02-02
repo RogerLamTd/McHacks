@@ -3,6 +3,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const Listing = require('./models/listing')
+const axios = require('axios')
 
 
 app.get('/', (req, res) => {
@@ -16,12 +17,21 @@ app.get('/api/listings', (request, response) => {
 });
 
 app.get('/api/listings/:id', (request, response) => {
-  Listing.findById(request.params.id).then(listing => {
-    response.json(listing.toJSON())
+  Listing.findById(request.params.id)
+  .then(listing => {
+    if (listing){
+      response.json(listing.toJSON())
+    } else {
+      response.status(404).end()
+    }
+  })
+  .catch(error => {
+    console.log(error)
+    response.status(400).send({ error: 'malformatted id' })
   })
 })
 
-app.delete('/listings/:id', (req, res) => {
+app.delete('/api/listings/:id', (req, res, next) => {
   const id = Number(req.params.id)
   listings = listings.filter(listing => listing.id !== id)
 
@@ -34,9 +44,28 @@ app.post('/api/listings', (request, response) => {
   if (body.content === undefined) {
     return response.status(400).json({ error: 'content missing' })
   }
+  console.log(body)
+
+  const key = process.env.REACT_APP_MAP_KEY
+  const address = body.window.address.split("+") + ",+Montreal,+QC"
+  console.log(adress)
+  let coords
+  axios.get("https://maps.googleapis.com/maps/api/geocode/json?address=${address}}&key=${key}")
+    .then(res => {
+      console.log(res)
+      coords = JSON.stringify(res.data)
+    })
+    .catch(error => {
+      console.log(error);
+  })
+  if (coords === undefined) {
+    return response.status(400).json({ error: 'address missing'})
+  }
 
   const listing = new Listing({
-    posn: body.posn,
+    posn: { lat:toString(coords.results[0].geometry.location.lat),
+      lng: toString(coords.results[0].geometry.location.lng),
+    },
     window: body.window,
     posting: body.posting,
   })
