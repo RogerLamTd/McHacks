@@ -17,15 +17,15 @@ const Example = (props) => {
     return (
       <div>
         <Navbar color="faded" light>
-          <NavbarBrand href="/" className="mr-auto">McLet</NavbarBrand>
+          <NavbarBrand className="mr-auto"><Link to="/">Home </Link></NavbarBrand>
           <NavbarToggler onClick={toggleNavbar} className="mr-2" />
           <Collapse isOpen={!collapsed} navbar>
             <Nav navbar>
               <NavItem>
-                <NavLink href="/sublet">Sublet Map</NavLink>
+                <NavLink><Link to="/sublet">Sublet Map</Link></NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/subletForm">Sublet Form</NavLink>
+                <NavLink><Link to="/subletForm">Sublet Form</Link></NavLink>
               </NavItem>
             </Nav>
           </Collapse>
@@ -37,7 +37,6 @@ const Example = (props) => {
 
 const IndexPage = () => (
     <>
-    <Example />
     <h1>Hi!</h1>
     <p> welcome to site</p>
     <p> time to make stuff</p>
@@ -50,19 +49,8 @@ export default function Test() {
     return(
         <Router>
             <>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="/">Home </Link>
-                        </li>
-                    <li>
-                        <Link to="/sublet">Sublet Map</Link>
-                    </li>
-                    <li>
-                        <Link to="/subletForm">Sublet Form</Link>
-                    </li>
-                </ul>
-            </nav>
+            <Example />
+            
             <Switch>
                 <Route path="/sublet">
                     <App />
