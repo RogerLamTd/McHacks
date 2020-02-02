@@ -3,8 +3,6 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const Listing = require('./models/listing')
-const axios = require('axios')
-const req = require('request');
 
 
 app.use(express.static('build'))
@@ -44,33 +42,19 @@ app.delete('/api/listings/:id', (req, res, next) => {
 })
 
 
-setTimeout(app.post('/api/listings', (request, response) => {
+app.post('/api/listings', (request, response) => {
   const body = request.body
- 
-  const key = process.env.REACT_APP_GEOCODE_KEY
-  const address = body.window.address.split("+") + ",+Montreal,+QC"
-  req(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}}&key=${key}`, { json: true }, (err, res, coords) => {
-      if (err) { return console.log(err); }
-      
-        const nlat = toString(coords["geometry"].location.lat)
-        const nlng = toString(coords["geometry"].location.lng)
-        const listing = new Listing({
-          posn: { lat:nlat,
-            lng: nlng,
-          },
-          window: body.window,
-          posting: body.posting,
-        })
 
-        listing.save().then(savedListing => {
-          response.json(savedListing.toJSON())
-        })
-      console.log(coords.url);
-      console.log(coords.explanation);
-  });
+  const listing = new Listing({
+    posn: body.posn,
+    window: body.window,
+    posting: body.posting,
+  })
 
-  
-}), 10000);
+  listing.save().then(savedListing => {
+    response.json(savedListing.toJSON())
+  })
+})
 
 const PORT = 3001
 app.listen(PORT, () => {

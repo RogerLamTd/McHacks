@@ -1,5 +1,28 @@
 import React from 'react';
-
+const getCoords = async (addy) => {
+    const key = process.env.REACT_APP_GEOCODE_KEY
+    const address = addy.split("+") + ",+Montreal,+QC"
+    try{
+        const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}}&key=${key}`);
+        if(response.ok){
+            const coords = await response.json();
+            const nlat = toString(coords["geometry"].location.lat)
+            const nlng = toString(coords["geometry"].location.lng)
+            //const parsedData = JSON.parse(jsonResponse);
+            
+           
+            return {
+                lat : nlat,
+                lng : nlng
+            };
+          
+        }
+        throw new Error("Request failed!");
+      }
+      catch(error){
+        console.log(error);
+      }
+}
 const sendData = async (data) => {
     console.log(data);
     try {
@@ -46,7 +69,9 @@ export class SubletForm extends React.Component{
       }
     
     handleClick(){
+
         let newObject = {
+            posn: getCoords(this.state.addy),
             window: {
                 address: this.state.addy,
                 nRooms: this.state.nRooms
