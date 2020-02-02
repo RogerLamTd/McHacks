@@ -6,6 +6,7 @@ const Listing = require('./models/listing')
 const axios = require('axios')
 
 app.use(express.static('build'))
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
