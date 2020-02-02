@@ -5,6 +5,8 @@ const app = express()
 const Listing = require('./models/listing')
 const axios = require('axios')
 
+app.use(express.static('build'))
+app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
   res.send('<h1>Hello World!</h1>')
