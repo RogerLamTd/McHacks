@@ -4,6 +4,8 @@ const bodyParser = require('body-parser')
 const app = express()
 const Listing = require('./models/listing')
 const axios = require('axios')
+const req = require('request');
+
 
 app.use(express.static('build'))
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -41,37 +43,34 @@ app.delete('/api/listings/:id', (req, res, next) => {
   res.status(204).end()
 })
 
-app.post('/api/listings', (request, response) => {
-  const body = request.body
-  console.log(body);
-  
-  console.log(body)
 
+setTimeout(app.post('/api/listings', (request, response) => {
+  const body = request.body
+ 
   const key = process.env.REACT_APP_GEOCODE_KEY
   const address = body.window.address.split("+") + ",+Montreal,+QC"
-  console.log(address)
-  let coords
-  axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}}&key=${key}`)
-    .then(res => {
-      coords = res.data.results[0]
-      console.log(coords)
-    })
-    .catch(error => {
-      console.log(error);
-  })
+  req(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}}&key=${key}`, { json: true }, (err, res, coords) => {
+      if (err) { return console.log(err); }
+      
+        const nlat = toString(coords["geometry"].location.lat)
+        const nlng = toString(coords["geometry"].location.lng)
+        const listing = new Listing({
+          posn: { lat:nlat,
+            lng: nlng,
+          },
+          window: body.window,
+          posting: body.posting,
+        })
 
-  const listing = new Listing({
-    posn: { lat:toString(coords["geometry"].location.lat),
-      lng: toString(coords["geometry"].location.lng),
-    },
-    window: body.window,
-    posting: body.posting,
-  })
+        listing.save().then(savedListing => {
+          response.json(savedListing.toJSON())
+        })
+      console.log(coords.url);
+      console.log(coords.explanation);
+  });
 
-  listing.save().then(savedListing => {
-    response.json(savedListing.toJSON())
-  })
-})
+  
+}), 10000);
 
 const PORT = 3001
 app.listen(PORT, () => {
