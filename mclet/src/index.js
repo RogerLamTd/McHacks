@@ -6,8 +6,8 @@ import './index.css';
 import App from './App';
 import {SubletForm} from "./subletForm";
 import 'bootstrap/dist/css/bootstrap.min.css';
- 
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import Typography from '@material-ui/core/Typography'
 
 
 const AppBar = (props) => {
@@ -38,9 +38,7 @@ const AppBar = (props) => {
 
 const IndexPage = () => (
     <>
-    <h1>Hi!</h1>
-    <p> welcome to site</p>
-    <p> time to make stuff</p>
+    <h1>Welcome to McLet</h1>
     </>
 )
 
