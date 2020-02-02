@@ -1,6 +1,9 @@
+const dotenv = require('dotenv').config()
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
+const List = require('./models/list')
+const PORT = process.env.PORT
 
 if ( process.argv.length < 3) {
     console.log('give a password as argument')
@@ -8,11 +11,22 @@ if ( process.argv.length < 3) {
 
 const password = process.argv[2]
 
-const url = 
-    `mongodb+srv://mchacks:${password}@listings-awwxv.mongodb.net/test?retryWrites=true&w=majority`
+const url = process.env.MONGODB_URI
+
+console.log('connecting to', url)
 
 mongoose.connect(url, { useNewUrlParser: true })
+  .then(result => {
+    console.log('connected to MongoDB')
+  })
+  .catch((error) => {
+    console.log('error connecting to MongoDB:', error.message)
+  })
 
+/*const url = 
+    `mongodb+srv://mchacks:${password}@listings-awwxv.mongodb.net/test?retryWrites=true&w=majority`
+*/
+  
 const listingSchema = new mongoose.Schema({
     id: Number,
     date: Date,
@@ -56,19 +70,51 @@ const test = new Posting({
     },
 })
 
+/*
 test.save().then(result => {
-    console.log('test succesful!')
+    console.log('test successful!')
     mongoose.connection.close()
 })
+*/
+
+Posting.find({}).then(res => {
+  res.forEach(test => {
+    console.log(test)
+  })
+  mongoose.connection.close()
+})
+
+/* For specifics
+Posting.find({ rent: 800 }).then(result => {
+	console.log('rent money')
+	mongoose.connection.close()
+})
+*/
 
 app.get('/', (req, res) => {
     res.send('<h1>Hello World!</h1>')
 })
 
-app.get('/api/listings', (req, res) => {
-    res.json(listings)
+listingSchema.set('toJSON', {
+  transform: (document, retObj) => {
+    retObj.id = retObj._id.toString()
+    delete retObj._id
+    delete retObj.__v
+  }
 })
 
-const PORT = 3001
+app.get('/api/listings', (req, res) => {
+    Posting.find({}).then(listings => {
+    	res.json(listings.map(list => list.toJSON()))
+    });
+});
+//listings is now assigned to an array of objects
+
 app.listen(PORT)
-console.log('Server running on port ${PORT}')
+console.log(`Server running on port ${PORT}`)
+
+
+
+
+
+
