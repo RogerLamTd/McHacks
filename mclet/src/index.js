@@ -10,7 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 
 
-const Example = (props) => {
+const AppBar = (props) => {
     const [collapsed, setCollapsed] = useState(true);
   
     const toggleNavbar = () => setCollapsed(!collapsed);
@@ -50,7 +50,7 @@ export default function Test() {
     return(
         <Router>
             <>
-            <Example />
+            <AppBar />
             
             <Switch>
                 <Route path="/sublet">
