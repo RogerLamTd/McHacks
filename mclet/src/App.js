@@ -46,9 +46,9 @@ export class App extends React.Component{
       }
     }
 
-    const parsedData = JSON.parse(getData);
+    //const parsedData = JSON.parse(getData);
 
-    parsedData.forEach(currentListing => {
+    getData.forEach(currentListing => {
         console.log(currentListing);
         this.addMarker(currentListing);
       })
