@@ -6,17 +6,20 @@ import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-map
 require('dotenv').config();
 
 // ...
+let id=0;
 const addMarker = (jsonListing) => {
   const objectListing = JSON.parse(jsonListing);
   newListings.push(
-    <Marker position = {{ lat: objectListing.lat, lng: objectListing.lng}} />
+    <Marker position = {{ lat: parseFloat(objectListing.lat), lng: parseFloat(objectListing.lng)}} key = {id} />
   )
+  id++;
+
 };
 
 const newListings = [];
 const testObject = {
-  lat: 45.5,
-  lng:-73.57
+  lat: "45.5",
+  lng:"-73.57"
 }
 
 const testJson = JSON.stringify(testObject);
@@ -49,6 +52,7 @@ export class App extends React.Component{
     }
 
     addMarker(JSON.stringify(newObject));
+    this.forceUpdate();
   }
 
   render(){
@@ -59,7 +63,7 @@ export class App extends React.Component{
               Enter lat:
               <input
                 name="lat"
-                type="number"
+                type="text"
                 value={this.state.lat}
                 onChange={this.handleInputChange} />
             </label>
@@ -68,7 +72,7 @@ export class App extends React.Component{
               Enter lng:
               <input
                 name="lng"
-                type="number"
+                type="text"
                 value={this.state.lng}
                 onChange={this.handleInputChange} />
             </label>
