@@ -49,10 +49,8 @@ export default function Test() {
     );
 }
 
-function Home(){
-    return <h2>HomIE peeepee</h2>;
-}
 
 
 
 ReactDOM.render(<Test />, document.getElementById('root'));
+
